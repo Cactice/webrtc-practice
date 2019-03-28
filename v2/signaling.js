@@ -37,15 +37,15 @@ function isSame(ws1, ws2) {
 }
 --*/
 
-
-var srv = require('http').Server();
-var io = require('socket.io')(srv);
 var fs = require('fs');
-var port = 3002;
-srv.listen(port, {
+let options = {
   key : fs.readFileSync('./key.pem').toString(),
   cert: fs.readFileSync('./cert.pem').toString(),
-})
+}
+
+var srv = require('https').createServer(options);
+var io = require('socket.io')(srv);
+var port = 3002;
 console.log('signaling server started on port:' + port);
 
 
@@ -119,3 +119,4 @@ io.on('connection', function(socket) {
     });
 
 });
+srv.listen(port)

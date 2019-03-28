@@ -108,7 +108,7 @@
 
   // ----- use socket.io ---
   let port = 3002;
-  let socket = io.connect('http://localhost:' + port + '/');
+  let socket = io.connect('https://localhost:' + port + '/');
   let room = getRoomName();
   socket.on('connect', function(evt) {
     console.log('socket.io connected. enter room=' + room );
