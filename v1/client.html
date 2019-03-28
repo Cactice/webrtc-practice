@@ -49,11 +49,6 @@
   let wsUrl = 'wss://192.168.179.4:3001/';
   var ua = navigator.userAgent.toLowerCase();
   var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
-  if(isAndroid) {
-    wsUrl = 'wss://192.168.179.4:3001/';
-  }else{
-    wsUrl = 'wss://localhost:3001/';
-  }
   let ws = new WebSocket(wsUrl);
   ws.onopen = function(evt) {
     console.log('ws open()');
