@@ -52,6 +52,7 @@ console.log('signaling server started on port:' + port);
 // This callback function is called every time a socket
 // tries to connect to the server
 io.on('connection', function(socket) {
+      console.log('waah' + port);
     // ---- multi room ----
     socket.on('enter', function(roomname) {
       socket.join(roomname);
