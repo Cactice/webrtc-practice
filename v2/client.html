@@ -108,7 +108,7 @@
 
   // ----- use socket.io ---
   let port = 3002;
-  let socket = io.connect('https://localhost:' + port + '/');
+  let socket = io.connect('https://192.168.179.4:' + port + '/');
   let room = getRoomName();
   socket.on('connect', function(evt) {
     console.log('socket.io connected. enter room=' + room );
@@ -319,7 +319,7 @@
   // ---------------------- media handling -----------------------
   // start local video
   function startVideo() {
-    getDeviceStream({video: true, audio: true}) // audio: false <-- ontrack once, audio:true --> ontrack twice!!
+    getDeviceStream({video: true, audio: false}) // audio: false <-- ontrack once, audio:true --> ontrack twice!!
     .then(function (stream) { // success
       localStream = stream;
       playVideo(localVideo, stream);
@@ -365,6 +365,7 @@
   }
 
   function playVideo(element, stream) {
+    element.setAttribute("playsinline", true);
     if ('srcObject' in element) {
       element.srcObject = stream;
     }
