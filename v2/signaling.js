@@ -48,6 +48,7 @@ var io = require('socket.io')(srv);
 var port = 3002;
 console.log('signaling server started on port:' + port);
 
+let store = {}
 
 // This callback function is called every time a socket
 // tries to connect to the server
@@ -60,26 +61,28 @@ io.on('connection', function(socket) {
     });
 
     function setRoomname(room) {
-      socket.roomname = room;
+      store[socket.id] = room
+      console.log(`set roomame to ${room}`)
     }
 
     function getRoomname() {
-      var room = socket.roomname;
+      var room = store[socket.id]
+      console.log(`get roomame : ${JSON.stringify(room)}`)
       return room;
     }
 
     function emitMessage(type, message) {
       // ----- multi room ----
       var roomname = getRoomname();
-
+/*
       if (roomname) {
-        //console.log('===== message broadcast to room -->' + roomname);
+        console.log('===== message broadcast to room -->' + JSON.stringify(roomname))
         socket.broadcast.to(roomname).emit(type, message);
       }
-      else {
+      else {*/
         console.log('===== message broadcast all');
         socket.broadcast.emit(type, message);
-      }
+      //}
     }
 
     // When a user send a SDP message
@@ -105,7 +108,6 @@ io.on('connection', function(socket) {
     // broadcast bye signal to all users in the room
     socket.on('disconnect', function() {
         // close user connection
-        console.log((new Date()) + ' Peer disconnected. id=' + socket.id);
 
         // --- emit ----
         emitMessage('user disconnected', {id: socket.id});
@@ -116,6 +118,5 @@ io.on('connection', function(socket) {
           socket.leave(roomname);
         }
     });
-
 });
 srv.listen(port)
